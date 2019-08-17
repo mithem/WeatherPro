@@ -1,0 +1,110 @@
+    *,
+    *::before,
+    *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    @font-face {
+        font-family: PopLight;
+        src: url("fonts/Poppins-Light.ttf");
+    }
+    
+    @font-face {
+        font-family: PopReg;
+        src: url("fonts/Poppins-Regular.ttf");
+    }
+    
+    @font-face {
+        font-family: PopMedium;
+        src: url("fonts/Poppins-Medium.ttf");
+    }
+    
+    body {
+        font-family: PopLight;
+        color: white;
+        background-color: #313137;
+        height: 90vh;
+    }
+    
+    nav {
+        min-height: 10vh;
+        width: 90%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    nav .icons img {
+        height: 30px;
+        width: 30px;
+        margin-left: 8em;
+    }
+    
+    main {
+        background-color: #454558;
+        display: grid;
+        grid-template-columns: 1% 4fr 5fr 1%;
+        grid-column-gap: 35px;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+    
+    section.box {
+        height: 500px;
+        background-color: #68687F;
+        overflow: hidden;
+        border: none;
+        border-radius: 50px;
+    }
+    
+    section .box-left {
+        width: 450px;
+        grid-column: 2/3;
+    }
+    
+    section .box-right {
+        width: 600px;
+        grid-column: 3/4;
+    }
+    
+    .box-left .locationDescription {
+        padding: 20px;
+        display: flex;
+    }
+    
+    .box-left .locationDescription .weatherIcon img {
+        height: 48px;
+        margin-right: 5px;
+    }
+    
+    .box-left .locationDescription .locationAdress .city {
+        font-family: PopReg;
+    }
+    
+    .box-left .locationDescription .locationAdress .country {
+        font-size: 12px;
+    }
+    
+    .weatherDetails {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+        grid-column-gap: 10px;
+        grid-row-gap: 15px;
+        grid-auto-flow: column;
+        height: 400px;
+        justify-items: center;
+    }
+    
+    .detail {
+        height: 40px;
+        width: 100px;
+        background-color: #454558;
+        border: none;
+        border-radius: 16px;
+        display: flex;
+    }

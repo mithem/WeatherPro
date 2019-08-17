@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 46 46">
+<defs>
+<linearGradient y1="75" id="LinearGradient" x1="1839.18" y2="75" x2="1885.18" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -1839.18 -52)">
+<stop stop-color="#833fff" offset="0"/>
+<stop stop-color="#03ffee" offset="1"/>
+</linearGradient>
+</defs>
+<g id="Layer 1" vectornator:layerName="Layer 1">
+<path d="M23+0C10.297+0+0+10.297+0+23C0+35.703+10.297+46+23+46C35.703+46+46+35.703+46+23C46+10.297+35.703+0+23+0ZM23+9C24.657+9+26+10.343+26+12C26+13.657+24.657+15+23+15C21.343+15+20+13.657+20+12C20+10.343+21.343+9+23+9ZM27+36L25+36L21+36L19+36L19+34L21+34L21+21L19+21L19+19L21+19L25+19L25+21L25+34L27+34L27+36Z" opacity="1" fill="url(#LinearGradient)"/>
+</g>
+</svg>

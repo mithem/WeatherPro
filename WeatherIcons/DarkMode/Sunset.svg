@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Vectornator for iOS (http://vectornator.io/) --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 104.895 73.71">
+<metadata>
+<vectornator:setting key="DisplayWhiteBackground" value="0"/>
+<vectornator:setting key="RulersVisible" value="1"/>
+<vectornator:setting key="SnapToEdges" value="0"/>
+<vectornator:setting key="Units" value="Millimeters"/>
+<vectornator:setting key="DynamicGuides" value="1"/>
+<vectornator:setting key="SnapToPoints" value="0"/>
+<vectornator:setting key="SnapToGrid" value="0"/>
+<vectornator:setting key="SnapToGuides" value="1"/>
+<vectornator:setting key="ShowGrid" value="0"/>
+<vectornator:setting key="GridSpacing" value="36"/>
+</metadata>
+<defs>
+<linearGradient y1="848.024" id="LinearGradient" x1="567.678" y2="898.024" x2="568.117" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -514.005 -836.169)">
+<stop stop-color="#e16d2b" offset="0"/>
+<stop stop-color="#cfc839" offset="1"/>
+</linearGradient>
+<linearGradient y1="848.024" id="LinearGradient_2" x1="561.035" y2="899.077" x2="560.302" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -514.005 -836.169)">
+<stop stop-color="#e16d2b" offset="0"/>
+<stop stop-color="#cfc839" offset="1"/>
+</linearGradient>
+<linearGradient y1="848.024" id="LinearGradient_3" x1="552.005" y2="898.024" x2="548.9" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -514.005 -836.169)">
+<stop stop-color="#e16d2b" offset="0"/>
+<stop stop-color="#cfc839" offset="1"/>
+</linearGradient>
+<linearGradient y1="848.024" id="LinearGradient_4" x1="573.978" y2="898.024" x2="576.005" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -514.005 -836.169)">
+<stop stop-color="#e16d2b" offset="0"/>
+<stop stop-color="#cfc839" offset="1"/>
+</linearGradient>
+<linearGradient y1="848.024" id="LinearGradient_5" x1="568.166" y2="898.024" x2="568.068" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -514.005 -836.169)">
+<stop stop-color="#e16d2b" offset="0"/>
+<stop stop-color="#cfc839" offset="1"/>
+</linearGradient>
+</defs>
+<g id="Layer 1" vectornator:layerName="Layer 1">
+<g opacity="1">
+<path d="M50+11.855C49.4492+11.855+49+12.3042+49+12.855L49+28.9487L43.8125+23.7612C43.4219+23.3706+42.7969+23.3706+42.4062+23.7612C42.0156+24.1519+42.0156+24.7769+42.4062+25.1675L50+32.7612L57.5938+25.1675C57.9844+24.7769+57.9844+24.1519+57.5938+23.7612C57.2031+23.3706+56.5781+23.3706+56.1875+23.7612L51+28.9487L51+12.855C51+12.3042+50.5508+11.855+50+11.855Z" opacity="1" fill="url(#LinearGradient)"/>
+<path d="M50+39.855C49.4492+39.855+49+40.3003+49+40.855L49+46.855C49+47.4097+49.4492+47.855+50+47.855C50.5508+47.855+51+47.4097+51+46.855L51+40.855C51+40.3003+50.5508+39.855+50+39.855Z" opacity="1" fill="url(#LinearGradient_2)"/>
+<path d="M35.9062+45.7612C35.6523+45.7612+35.3828+45.8472+35.1875+46.0425C34.7969+46.4331+34.7969+47.0581+35.1875+47.4487L39.4062+51.6675C39.6016+51.8628+39.8359+51.9487+40.0938+51.9487C40.3516+51.9487+40.6172+51.8628+40.8125+51.6675C41.2031+51.2769+41.2031+50.6519+40.8125+50.2612L36.5938+46.0425C36.3984+45.8472+36.1602+45.7612+35.9062+45.7612Z" opacity="1" fill="url(#LinearGradient_3)"/>
+<path d="M64.0938+45.7612C63.8398+45.7612+63.6016+45.8472+63.4062+46.0425L59.1875+50.2612C58.7969+50.6519+58.7969+51.2769+59.1875+51.6675C59.3828+51.8628+59.6523+51.9487+59.9062+51.9487C60.1641+51.9487+60.3984+51.8628+60.5938+51.6675L64.8125+47.4487C65.2031+47.0581+65.2031+46.4331+64.8125+46.0425C64.6172+45.8472+64.3477+45.7612+64.0938+45.7612Z" opacity="1" fill="url(#LinearGradient_4)"/>
+<path d="M50+50.855C44.8242+50.855+40.5664+54.8081+40.0625+59.855L26+59.855C25.4492+59.855+25+60.3003+25+60.855C25+61.4097+25.4492+61.855+26+61.855L74+61.855C74.5547+61.855+75+61.4097+75+60.855C75+60.3003+74.5547+59.855+74+59.855L59.9375+59.855C59.4336+54.8081+55.1758+50.855+50+50.855Z" opacity="1" fill="url(#LinearGradient_5)"/>
+</g>
+</g>
+</svg>

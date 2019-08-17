@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Vectornator for iOS (http://vectornator.io/) --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 104.895 73.71">
+<metadata>
+<vectornator:setting key="DisplayWhiteBackground" value="0"/>
+<vectornator:setting key="RulersVisible" value="1"/>
+<vectornator:setting key="GridSpacing" value="36"/>
+<vectornator:setting key="Units" value="Millimeters"/>
+<vectornator:setting key="DynamicGuides" value="1"/>
+<vectornator:setting key="SnapToPoints" value="0"/>
+<vectornator:setting key="SnapToGrid" value="0"/>
+<vectornator:setting key="SnapToGuides" value="1"/>
+<vectornator:setting key="ShowGrid" value="0"/>
+<vectornator:setting key="SnapToEdges" value="0"/>
+</metadata>
+<defs>
+<linearGradient y1="42.375" id="LinearGradient" x1="31.9994" y2="51.377" x2="31.9994" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 20.4475 -0.483736)">
+<stop stop-color="#6dc7ff" offset="0"/>
+<stop stop-color="#e6abff" offset="1"/>
+</linearGradient>
+<linearGradient y1="5" id="LinearGradient_2" x1="32" y2="59.5255" x2="32" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 20.4475 -0.483736)">
+<stop stop-color="#1a6dff" offset="0"/>
+<stop stop-color="#c822ff" offset="1"/>
+</linearGradient>
+<linearGradient y1="5" id="LinearGradient_3" x1="31.999" y2="59.5255" x2="31.999" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 20.4475 -0.483736)">
+<stop stop-color="#1a6dff" offset="0"/>
+<stop stop-color="#c822ff" offset="1"/>
+</linearGradient>
+</defs>
+<g id="Layer 1" vectornator:layerName="Layer 1">
+<g opacity="1">
+<path d="M48.4465+46.5163C48.4465+44.3071+50.2374+42.5163+52.4465+42.5163C54.6556+42.5163+56.4465+44.3071+56.4465+46.5163C56.4465+48.7254+54.6556+50.5163+52.4465+50.5163C50.2374+50.5163+48.4465+48.7254+48.4465+46.5163Z" opacity="1" fill="url(#LinearGradient)"/>
+<path d="M58.4475+37.3053L58.4475+11.5163C58.4475+8.20726+55.7565+5.51626+52.4475+5.51626C49.1385+5.51626+46.4475+8.20726+46.4475+11.5163L46.4475+37.3053C43.3485+39.3213+41.4475+42.7973+41.4475+46.5163C41.4475+52.5813+46.3825+57.5163+52.4465+57.5163C58.5125+57.5163+63.4475+52.5813+63.4475+46.5163C63.4475+42.7973+61.5465+39.3213+58.4475+37.3053ZM52.4465+55.5163C47.4845+55.5163+43.4475+51.4793+43.4475+46.5163C43.4475+43.3143+45.1715+40.3313+47.9465+38.7313L48.4475+38.4433L48.4475+29.5163L50.4475+29.5163L50.4475+27.5163L48.4475+27.5163L48.4475+25.5163L52.4475+25.5163L52.4475+23.5163L48.4475+23.5163L48.4475+21.5163L50.4475+21.5163L50.4475+19.5163L48.4475+19.5163L48.4475+17.5163L50.4475+17.5163L50.4475+15.5163L48.4475+15.5163L48.4475+13.5163L52.4475+13.5163L52.4475+11.5163L48.4475+11.5163C48.4475+9.31026+50.2415+7.51626+52.4475+7.51626C54.6535+7.51626+56.4475+9.31026+56.4475+11.5163L56.4475+38.4433L56.9485+38.7313C59.7235+40.3313+61.4475+43.3143+61.4475+46.5163C61.4475+51.4793+57.4095+55.5163+52.4465+55.5163Z" opacity="1" fill="url(#LinearGradient_2)"/>
+<path d="M53.4475+41.6173L53.4475+31.5163L51.4475+31.5163L51.4475+41.6173C49.1675+42.0813+47.4465+44.1013+47.4465+46.5163C47.4465+49.2733+49.6895+51.5163+52.4465+51.5163C55.2035+51.5163+57.4465+49.2733+57.4465+46.5163C57.4465+44.1023+55.7265+42.0823+53.4475+41.6173ZM52.4465+49.5163C50.7925+49.5163+49.4465+48.1703+49.4465+46.5163C49.4465+44.8623+50.7925+43.5163+52.4465+43.5163C54.1005+43.5163+55.4465+44.8623+55.4465+46.5163C55.4465+48.1703+54.1005+49.5163+52.4465+49.5163Z" opacity="1" fill="url(#LinearGradient_3)"/>
+</g>
+<path stroke="#424242" stroke-width="0.4" d="M53.4977+43.7446C53.1482+44.6428+52.7995+45.5387+52.449+46.4394" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round" vectornator:blendMode="Multiply"/>
+<path stroke="#ed0000" stroke-opacity="0.531858" stroke-width="0.22" d="M53.4087+49.1734C53.0858+48.2653+52.7636+47.3595+52.4398+46.4488" fill="none" stroke-linecap="round" opacity="1" stroke-linejoin="round" vectornator:blendMode="Multiply"/>
+</g>
+</svg>
