@@ -21,6 +21,11 @@
         src: url("fonts/Poppins-Medium.ttf");
     }
     
+    @font-face {
+        font-family: PopBold;
+        src: url("fonts/Poppins-Bold.ttf");
+    }
+    
     body {
         font-family: PopLight;
         color: white;
@@ -102,9 +107,42 @@
     
     .detail {
         height: 40px;
-        width: 100px;
+        width: 120px;
         background-color: #454558;
         border: none;
         border-radius: 16px;
         display: flex;
+    }
+    
+    .detail div {
+        margin: auto;
+        margin-right: 10px;
+    }
+    
+    .detail div span.value {
+        font-family: PopBold;
+        font-size: 16px;
+    }
+    
+    .detail div span.unit {
+        font-family: PopReg;
+        font-size: 10px;
+        margin-left: 5px;
+    }
+    
+    .windDescription {
+        margin: auto;
+        width: 30%;
+        align-items: center;
+    }
+    
+    .windDescription img {
+        height: 15px;
+        margin: auto;
+    }
+    
+    .windDescription p {
+        font-size: 12px;
+        font-family: PopBold;
+        margin-left: 4px;
     }

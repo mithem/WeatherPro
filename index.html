@@ -14,8 +14,8 @@
         <nav>
             <h3 class="logo">Weather Pro</h3>
             <div class="icons">
-                <img src="./settings.svg" alt="Settings" />
-                <img src="./about.svg" alt="About" />
+                <img src="./graphics/settings.svg" alt="Settings" />
+                <img src="./graphics/about.svg" alt="About" />
             </div>
         </nav>
     </header>
@@ -30,23 +30,44 @@
                 </div>
             </div>
             <div class="weatherDetails">
-                <div class="detail temp"><img src="./WeatherIcons/DarkMode/Temp.svg"></div>
-                <div class="detail tempLo"><img src="./WeatherIcons/DarkMode/TempLo.svg"></div>
-                <div class="detail tempHi"><img src="./WeatherIcons/DarkMode/TempHi.svg"></div>
-                <div class="detail pressure"><img src="./WeatherIcons/DarkMode/Pressure.svg"></div>
+                <div class="detail temp"><img src="./WeatherIcons/DarkMode/Temp.svg">
+                    <div><span class="value">17</span><span class="unit">°C</span></div>
+                </div>
+                <div class="detail tempLo"><img src="./WeatherIcons/DarkMode/TempLo.svg">
+                    <div><span class="value">12</span><span class="unit">°C</span></div>
+                </div>
+                <div class="detail tempHi"><img src="./WeatherIcons/DarkMode/TempHi.svg">
+                    <div><span class="value">24</span><span class="unit">°C</span></div>
+                </div>
+                <div class="detail pressure"><img src="./WeatherIcons/DarkMode/Pressure.svg">
+                    <div><span class="value">1013</span><span class="unit">hPa</span></div>
+                </div>
                 <div class="detail wind">
                     <img src="./WeatherIcons/DarkMode/Wind.svg">
-                    <div class="windDescription"></div>
+                    <div class="windDescription"><img src="./graphics/Arrow.svg" alt="90°">
+                        <p>12</p>
+                    </div>
                 </div>
-                <div class="detail humidity"><img src="./WeatherIcons/DarkMode/Humidity.svg"></div>
-                <div class="detail cloudiness"><img src="./WeatherIcons/DarkMode/Cloud.svg"></div>
-                <div class="detail visibility"><img src="./WeatherIcons/DarkMode/Visibility.svg"></div>
-                <div class="detail sunrise"><img src="./WeatherIcons/DarkMode/Sunrise.svg"></div>
-                <div class="detail sunset"><img src="./WeatherIcons/DarkMode/Sunset.svg"></div>
+                <div class="detail humidity"><img src="./WeatherIcons/DarkMode/Humidity.svg">
+                    <div><span class="value">72</span><span class="unit">%</span></div>
+                </div>
+                <div class="detail cloudiness"><img src="./WeatherIcons/DarkMode/Cloud.svg">
+                    <div><span class="value">30</span><span class="unit">%</span></div>
+                </div>
+                <div class="detail visibility"><img src="./WeatherIcons/DarkMode/Visibility.svg">
+                    <div><span class="value">1</span></div>
+                </div>
+                <div class="detail sunrise"><img src="./WeatherIcons/DarkMode/Sunrise.svg">
+                    <div><span class="value">00:00</span></div>
+                </div>
+                <div class="detail sunset"><img src="./WeatherIcons/DarkMode/Sunset.svg">
+                    <div><span class="value">00:00</span></div>
+                </div>
             </div>
         </section>
         <section class="box box-right"></section>
     </main>
+    <script src="app.js"></script>
 </body>
 
 </html>
