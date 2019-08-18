@@ -155,10 +155,22 @@
     
     .selectionModule {
         height: 100%;
+        width: 95%;
         display: flex;
         flex-direction: column;
         margin: auto;
         justify-content: center;
+    }
+    
+    .box-right .weatherDetails .visibility {
+        background-color: #68687F;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .box-right .weatherDetails .visibility img {
+        height: 90px;
+        width: 90px;
     }
     
     .daySelector {
@@ -174,10 +186,17 @@
         justify-content: center;
     }
     
-    .clock {
+    .clockContainer {
         width: 100%;
         align-self: flex-end;
         margin: auto;
+        text-align: center;
+    }
+    
+    .clockContainer p {
+        font-family: PopBold;
+        z-index: 1;
+        margin-top: 0;
     }
     
     .box-right .weatherDetails {
@@ -223,5 +242,15 @@
     }
     
     .box-right .weatherDetails {
-        justify-content: center;
+        width: 95%;
+    }
+    
+    .box-right .weatherDetails div.detail div {
+        width: 50px;
+        flex-shrink: 0;
+        margin-right: 5px;
+    }
+    
+    #clock {
+        transition: 1.5s;
     }
