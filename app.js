@@ -42,8 +42,12 @@ function plotCurrentWeather(data) {
     document.querySelector(".box-left .weatherDetails .tempHi div .value").textContent = Celsius(data.main.temp_max);
     document.querySelector(".box-left .weatherDetails .pressure div .value").textContent = data.main.pressure;
     document.querySelector(".box-left .weatherDetails .wind div p").textContent = data.wind.speed;
-    document.querySelector(".box-left .weatherDetails .wind div img").style.transform = "rotate(" + (data.wind.deg - 90).toString() + "deg)";
-    document.querySelector(".box-left .weatherDetails .wind div img").alt = data.wind.deg.toString() + "°";
+    try {
+        document.querySelector(".box-left .weatherDetails .wind div img").style.transform = "rotate(" + (data.wind.deg - 90).toString() + "deg)";
+        document.querySelector(".box-left .weatherDetails .wind div img").alt = data.wind.deg.toString() + "°";
+    } catch {
+        console.warn("Error while parsing wind. Probably no wind direction available due to low speed");
+    }
     document.querySelector(".box-left .weatherDetails .humidity div .value").textContent = data.main.humidity;
     document.querySelector(".box-left .weatherDetails .cloudiness div .value").textContent = data.clouds.all;
     document.querySelector(".box-left .weatherDetails .visibility div .value").textContent = data.visibility;
@@ -60,6 +64,31 @@ document.querySelectorAll(".day").forEach(i => {
     i.addEventListener("click", () => {
         forecastHour = 0;
         currentDay = i.classList[1].toString();
+        try {
+            document.querySelector(".is-active").classList.remove("is-active");
+        } catch (e) {
+            console.warn("css classes messed up: " + e);
+        }
+        i.classList.add("is-active");
+        switch (i.classList[1]) {
+            case "d1":
+                break;
+            case "d2":
+                fiveDayTracker = 8;
+                break;
+            case "d3":
+                fiveDayTracker = 16;
+                break;
+            case "d4":
+                fiveDayTracker = 24;
+                break;
+            case "d5":
+                fiveDayTracker = 32;
+                break;
+        }
+        document.querySelector("#clock").style.transform = "rotate(0deg)";
+        document.querySelector(".clockContainer p").textContent = "00:00";
+        // animateClock();
     })
 });
 
@@ -76,11 +105,7 @@ document.querySelector(".box-left .locationAdress").addEventListener("click", ()
     getForecastWeather(location[0], location[1]);
 });
 
-var forecastHour = 0;
-var fiveDayTracker = 1;
-
-var clock = document.getElementById("clock");
-window.addEventListener("wheel", event => {
+function animateClock() {
     const delta = Math.sign(event.deltaY);
     if (forecastHour === 21 && delta === 1) {
 
@@ -89,15 +114,33 @@ window.addEventListener("wheel", event => {
     } else {
         clock.style.transform += "rotate(" + (delta * 90).toString() + "deg)";
         forecastHour += 3 * delta;
-        fiveDayTracker += 1 * delta;
-
+        fiveDayTracker += delta;
     }
     drawForecast(fiveDayTracker);
     document.querySelector(".clockContainer p").textContent = forecastHour.toString() + ":00";
-});
+}
+
+var forecastHour = 0;
+var fiveDayTracker = 1;
+
+var clock = document.getElementById("clock");
+window.addEventListener("wheel", animateClock); //event => {
+//     const delta = Math.sign(event.deltaY);
+//     if (forecastHour === 21 && delta === 1) {
+
+//     } else if (forecastHour === 0 && delta === -1) {
+
+//     } else {
+//         clock.style.transform += "rotate(" + (delta * 90).toString() + "deg)";
+//         forecastHour += 3 * delta;
+//         fiveDayTracker += delta;
+//     }
+//     drawForecast(fiveDayTracker);
+//     document.querySelector(".clockContainer p").textContent = forecastHour.toString() + ":00";
+// });
 
 function drawForecast(id) {
-    if (id !== 9) {
+    if (id !== "he") {
         wObj = forecastData.list[id];
     }
     document.querySelector(".box-right .weatherDetails .temp div .value").textContent = Celsius(wObj.main.temp);
@@ -117,7 +160,6 @@ function drawForecast(id) {
 
     document.querySelector(".box-right .weatherDetails .sunrise div .value").textContent = document.querySelector(".box-left .weatherDetails .sunrise div .value").textContent;
     document.querySelector(".box-right .weatherDetails .sunset div .value").textContent = document.querySelector(".box-left .weatherDetails .sunset div .value").textContent;
-    console.debug(wObj);
 }
 
 var forecastData;

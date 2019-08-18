@@ -252,5 +252,9 @@
     }
     
     #clock {
-        transition: 1.5s;
+        transition: 1.5s ease-in-out;
+    }
+    
+    .is-active {
+        background-color: #343437;
     }
