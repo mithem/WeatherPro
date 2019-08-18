@@ -18,6 +18,8 @@ async function getCurrentWeather(city, country) {
     }
     req.onerror = function(e) {
         console.error(req.statusText);
+        Window.alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler: " + req.statusText);
+        return;
     }
     req.send();
 }
@@ -28,6 +30,12 @@ function plotWeather(data) {
     var sunriseTime = dR.getHours() + ":" + dR.getMinutes();
     var dS = new Date(data.sys.sunset * 1000);
     var sunsetTime = dS.getHours() + ":" + dS.getMinutes();
+
+    document.querySelector(".box-left .locationDescription .weatherIcon").innerHTML = "";
+    data.weather.forEach(i => {
+        document.querySelector(".box-left .locationDescription .weatherIcon").innerHTML += "<img class='weatherIcon' src='http://openweathermap.org/img/wn/" + i.icon + "@2x.png' alt='" + i.main + "' title='" + i.description + "' > ";
+    });
+
     document.querySelector(".box-left .locationAdress .city").textContent = data.name;
     document.querySelector(".box-left .locationAdress .country").textContent = data.sys.country;
 
@@ -50,8 +58,11 @@ function plotWeather(data) {
 getCurrentWeather("Lohmar", "DE");
 document.querySelector(".box-left .locationAdress").addEventListener("click", function changeLocation() {
     currentLoc = (Pdata.name + "," + Pdata.sys.country).toString();
-    console.log(currentLoc);
-    var loc = prompt("Enter new location like this: \nLos Angeles,uk", currentLoc);
-    var location = loc.split(",");
+    var loc = prompt("Neuen Ort eingeben: \nLos Angeles,us", currentLoc);
+    try {
+        var location = loc.split(",");
+    } catch (error) {
+        Window.alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler: " + error);
+    }
     getCurrentWeather(location[0], location[1]);
 });
