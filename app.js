@@ -14,7 +14,7 @@ async function getCurrentWeather(city, country) {
     }
     req.onerror = function(e) {
         console.error(req.statusText);
-        Window.alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler: " + req.statusText);
+        alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler: " + req.statusText);
         return;
     }
     req.send();
@@ -86,11 +86,33 @@ document.querySelectorAll(".day").forEach(i => {
                 fiveDayTracker = 32;
                 break;
         }
-        document.querySelector("#clock").style.transform = "rotate(0deg)";
-        document.querySelector(".clockContainer p").textContent = "00:00";
-        // animateClock();
+        clock.style.transform = "rotate(0deg)";
+        forecastReset();
     })
 });
+
+function setup() {
+    document.body.addEventListener("wheel", () => {
+        const delta = Math.sign(event.deltaY);
+        if (forecastHour === 21 && delta === 1) {
+
+        } else if (forecastHour === 0 && delta === -1) {
+
+        } else {
+            clock.style.transform += "rotate(" + (delta * 90).toString() + "deg)";
+            forecastHour += 3 * delta;
+            fiveDayTracker += delta;
+        }
+        drawForecast(fiveDayTracker);
+        document.querySelector(".clockContainer p").textContent = forecastHour.toString() + ":00";
+    });
+}
+
+function forecastReset() {
+    forecastHour = 0;
+    document.querySelector(".clockContainer p").textContent = "00:00";
+    drawForecast(fiveDayTracker);
+}
 
 
 document.querySelector(".box-left .locationAdress").addEventListener("click", () => {
@@ -99,45 +121,17 @@ document.querySelector(".box-left .locationAdress").addEventListener("click", ()
     try {
         var location = loc.split(",");
     } catch (error) {
-        Window.alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler: " + error);
+        alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler: " + error);
     }
     getCurrentWeather(location[0], location[1]);
     getForecastWeather(location[0], location[1]);
 });
 
-function animateClock() {
-    const delta = Math.sign(event.deltaY);
-    if (forecastHour === 21 && delta === 1) {
-
-    } else if (forecastHour === 0 && delta === -1) {
-
-    } else {
-        clock.style.transform += "rotate(" + (delta * 90).toString() + "deg)";
-        forecastHour += 3 * delta;
-        fiveDayTracker += delta;
-    }
-    drawForecast(fiveDayTracker);
-    document.querySelector(".clockContainer p").textContent = forecastHour.toString() + ":00";
-}
 
 var forecastHour = 0;
 var fiveDayTracker = 1;
 
 var clock = document.getElementById("clock");
-window.addEventListener("wheel", animateClock); //event => {
-//     const delta = Math.sign(event.deltaY);
-//     if (forecastHour === 21 && delta === 1) {
-
-//     } else if (forecastHour === 0 && delta === -1) {
-
-//     } else {
-//         clock.style.transform += "rotate(" + (delta * 90).toString() + "deg)";
-//         forecastHour += 3 * delta;
-//         fiveDayTracker += delta;
-//     }
-//     drawForecast(fiveDayTracker);
-//     document.querySelector(".clockContainer p").textContent = forecastHour.toString() + ":00";
-// });
 
 function drawForecast(id) {
     if (id !== "he") {
@@ -168,10 +162,11 @@ async function getForecastWeather(city, country) {
     await requ.open("GET", "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + country + "&APPID=" + currentAPIkey, true);
     requ.onload = function() {
         forecastData = JSON.parse(this.response);
+        setup();
     }
     requ.onerror = function(e) {
         console.error(req.statusText);
-        Window.alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler: " + req.statusText);
+        alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler: " + req.statusText);
         return;
     }
     requ.send();
