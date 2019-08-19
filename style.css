@@ -258,3 +258,44 @@
     .is-active {
         background-color: #343437;
     }
+    /*                 ONLY ON IOS              */
+    
+    .mobile-btn-container {
+        text-align: center;
+        width: 90%;
+        margin-bottom: 20px;
+        margin-left: 15px;
+    }
+    
+    .mobile-btn {
+        background-color: #343437;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        height: 30px;
+    }
+    /*              MEDIA QUERIES ETC           */
+    
+    @media screen and (max-width: 1000px) {
+        body {
+            height: 100%;
+        }
+        main {
+            grid-template-columns: 5% 1fr 5%;
+            grid-template-rows: 1fr 1fr;
+            grid-auto-flow: row;
+        }
+        section.box {
+            margin-top: 50px;
+        }
+        section.box.box-right {
+            grid-column: 2/3;
+            grid-row: 2/3;
+            grid-template-columns: 1fr;
+            height: 100%;
+        }
+        .detail {
+            justify-items: center;
+        }
+    }

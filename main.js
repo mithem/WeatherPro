@@ -8,10 +8,6 @@ var wObj;
 
 // declaring clock (to transform)
 var clock = document.getElementById("clock");
-// function for turning clock
-async function turnClock(deg) {
-    clock.style.transform += "rotate(" + deg + "deg)";
-}
 
 // utilities for math, dates and http-requests (and more)
 
@@ -151,15 +147,14 @@ d3.setDate(d3.getDate() + 3);
 d4.setDate(d4.getDate() + 4);
 d5.setDate(d5.getDate() + 5);
 
-// handling mousewhell-movement to 'scroll' through weather forecast
-document.body.addEventListener("wheel", () => {
-    const delta = Math.sign(event.deltaY);
+// handling mousewheel-movement to 'scroll' through weather forecast
+function moveTimestamp(delta) {
     if ((timeIndex === 0 && delta === -1) || (timeIndex === 39 && delta === 1)) {
 
     } else {
         timeIndex += delta;
         plotForecast(timeIndex);
-        turnClock(90);
+        document.getElementById("clock").style.transform += "rotate(" + delta * 90 + "deg)";
     }
     document.querySelector(".clockContainer p").textContent = toUTCTime(wObj.dt) + "0";
     document.querySelector(".is-active").classList.remove("is-active");
@@ -183,4 +178,21 @@ document.body.addEventListener("wheel", () => {
             alert("Dies ist ein " + deDay(d5.getDay()))
             break;
     }
+}
+
+document.body.addEventListener("wheel", () => {
+    const delta = Math.sign(event.deltaY);
+    moveTimestamp(delta);
 });
+
+
+//
+//
+// for css media queries
+//
+//
+
+// checking wether device has iOS
+if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+    document.querySelector(".selectionModule").innerHTML += "<div class='mobile-btn-container'><div class='mobile-btn mobile-btn-plus' onclick='return moveTimestamp(1)' > + </div><div class='mobile-btn mobile-btn-minus' onclick='return moveTimestamp(-1)' > - </div></div>";
+}
