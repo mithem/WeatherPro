@@ -4,8 +4,16 @@ function Celsius(k) {
     return Math.round((k - 273.15) * 100) / 100;
 }
 
+function kph(ms) {
+    return Math.round(ms * 3.6 * 100) / 100;
+}
+
+var forecastHour = 0;
+var fiveDayTracker = 1;
+var data;
+
+
 async function getCurrentWeather(city, country) {
-    var data;
     req = new XMLHttpRequest();
     await req.open("GET", "https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + country + "&APPID=" + currentAPIkey, true);
     req.onload = function() {
@@ -21,8 +29,12 @@ async function getCurrentWeather(city, country) {
 }
 
 function toUTCTime(unix) {
-    var d = new Date(unix * 1000);
+    d = toUTCDate(unix);
     return d.getHours() + ":" + d.getMinutes();
+}
+
+function toUTCDate(unix) {
+    return new Date(unix * 1000);
 }
 
 var Pdata;
@@ -41,7 +53,7 @@ function plotCurrentWeather(data) {
     document.querySelector(".box-left .weatherDetails .tempLo div .value").textContent = Celsius(data.main.temp_min);
     document.querySelector(".box-left .weatherDetails .tempHi div .value").textContent = Celsius(data.main.temp_max);
     document.querySelector(".box-left .weatherDetails .pressure div .value").textContent = data.main.pressure;
-    document.querySelector(".box-left .weatherDetails .wind div p").textContent = data.wind.speed;
+    document.querySelector(".box-left .weatherDetails .wind div p").textContent = kph(data.wind.speed);
     try {
         document.querySelector(".box-left .weatherDetails .wind div img").style.transform = "rotate(" + (data.wind.deg - 90).toString() + "deg)";
         document.querySelector(".box-left .weatherDetails .wind div img").alt = data.wind.deg.toString() + "°";
@@ -62,8 +74,10 @@ getCurrentWeather("Lohmar", "DE");
 var currentDay = "d1";
 document.querySelectorAll(".day").forEach(i => {
     i.addEventListener("click", () => {
-        forecastHour = 0;
         currentDay = i.classList[1].toString();
+        if (currentDay !== "d1") {
+            forecastHour = 0;
+        }
         try {
             document.querySelector(".is-active").classList.remove("is-active");
         } catch (e) {
@@ -74,7 +88,9 @@ document.querySelectorAll(".day").forEach(i => {
             case "d1":
                 break;
             case "d2":
-                fiveDayTracker = 8;
+                console.debug("fiveDaytracker before: " + fiveDayTracker);
+                fiveDayTracker = 8 - Math.floor(parseInt(toUTCDate(forecastData.list[fiveDayTracker].dt).getHours()));
+                console.debug("fiveDayTracker after: " + fiveDayTracker);
                 break;
             case "d3":
                 fiveDayTracker = 16;
@@ -91,21 +107,67 @@ document.querySelectorAll(".day").forEach(i => {
     })
 });
 
+function deDay(day) {
+    switch (day) {
+        case 1:
+            return "Mo";
+        case 2:
+            return "Di";
+        case 3:
+            return "Mi";
+        case 4:
+            return "Do";
+        case 5:
+            return "Fr";
+        case 6:
+            return "Sa";
+        case 7:
+            return "So";
+    }
+}
+
+
 function setup() {
     document.body.addEventListener("wheel", () => {
         const delta = Math.sign(event.deltaY);
-        if (forecastHour === 21 && delta === 1) {
+
+        if (forecastHour >= 21 && delta === 1) {
 
         } else if (forecastHour === 0 && delta === -1) {
 
+        } else if (fiveDayTracker === 0 && delta === -1) {
+
         } else {
-            clock.style.transform += "rotate(" + (delta * 90).toString() + "deg)";
+            clock.style.transform = "rotate(" + ((forecastHour) * 30).toString() + "deg)";
             forecastHour += 3 * delta;
             fiveDayTracker += delta;
         }
+        if (currentDay === "d1") {
+            if (forecastHour < parseInt(toUTCDate(forecastData.list[fiveDayTracker].dt).getHours())) {
+                forecastHour = parseInt(toUTCDate(forecastData.list[fiveDayTracker].dt).getHours());
+            } else {
+                clock.style.transform = "rotate(" + ((forecastHour) * 30).toString() + "deg)";
+                forecastHour += 3 * delta;
+                fiveDayTracker += delta;
+            }
+        }
+
         drawForecast(fiveDayTracker);
         document.querySelector(".clockContainer p").textContent = forecastHour.toString() + ":00";
     });
+    document.querySelector(".d1").textContent = deDay(toUTCDate(forecastData.list[0].dt).getDay());
+    document.querySelector(".d2").textContent = deDay(toUTCDate(forecastData.list[9].dt).getDay());
+    document.querySelector(".d3").textContent = deDay(toUTCDate(forecastData.list[17].dt).getDay());
+    document.querySelector(".d4").textContent = deDay(toUTCDate(forecastData.list[25].dt).getDay());
+    document.querySelector(".d5").textContent = deDay(toUTCDate(forecastData.list[33].dt).getDay());
+
+    document.querySelector(".d1").title = toUTCDate(forecastData.list[0].dt).getDate();
+    document.querySelector(".d2").title = toUTCDate(forecastData.list[9].dt).getDate();
+    document.querySelector(".d3").title = toUTCDate(forecastData.list[17].dt).getDate();
+    document.querySelector(".d4").title = toUTCDate(forecastData.list[25].dt).getDate();
+    document.querySelector(".d5").title = toUTCDate(forecastData.list[33].dt).getDate();
+
+    forecastHour = parseInt(toUTCDate(forecastData.list[0].dt).getHours());
 }
 
 function forecastReset() {
@@ -127,16 +189,12 @@ document.querySelector(".box-left .locationAdress").addEventListener("click", ()
     getForecastWeather(location[0], location[1]);
 });
 
-
-var forecastHour = 0;
-var fiveDayTracker = 1;
-
 var clock = document.getElementById("clock");
 
 function drawForecast(id) {
-    if (id !== "he") {
-        wObj = forecastData.list[id];
-    }
+    wObj = forecastData.list[id];
+    date = toUTCDate(wObj.dt);
+
     document.querySelector(".box-right .weatherDetails .temp div .value").textContent = Celsius(wObj.main.temp);
     document.querySelector(".box-right .weatherDetails .tempLo div .value").textContent = Celsius(wObj.main.temp_min);
     document.querySelector(".box-right .weatherDetails .tempHi div .value").textContent = Celsius(wObj.main.temp_max);
@@ -154,6 +212,8 @@ function drawForecast(id) {
 
     document.querySelector(".box-right .weatherDetails .sunrise div .value").textContent = document.querySelector(".box-left .weatherDetails .sunrise div .value").textContent;
     document.querySelector(".box-right .weatherDetails .sunset div .value").textContent = document.querySelector(".box-left .weatherDetails .sunset div .value").textContent;
+
+    console.debug("current forecast:\nid: " + id + "\n\ntimestamp: " + wObj.dt + "\nnormalised: " + toUTCDate(wObj.dt) + "\n\nforecastHour: " + forecastHour.toString() + "\nfiveDayTracker: " + fiveDayTracker.toString() + "\ncurrentDay: " + currentDay);
 }
 
 var forecastData;
