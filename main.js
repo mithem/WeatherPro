@@ -180,7 +180,12 @@ function moveTimestamp(delta) {
     }
 }
 
+// event listeners for scrubbing the wheel
 document.body.addEventListener("wheel", () => {
+    const delta = Math.sign(event.deltaY);
+    moveTimestamp(delta);
+});
+document.body.addEventListener("touchmove", () => {
     const delta = Math.sign(event.deltaY);
     moveTimestamp(delta);
 });
@@ -193,6 +198,7 @@ document.body.addEventListener("wheel", () => {
 //
 
 // checking wether device has iOS
+// (backup to touchmove event)
 if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
     document.querySelector(".selectionModule").innerHTML += "<div class='mobile-btn-container'><div class='mobile-btn mobile-btn-plus' onclick='return moveTimestamp(1)' > + </div><div class='mobile-btn mobile-btn-minus' onclick='return moveTimestamp(-1)' > - </div></div>";
 }
