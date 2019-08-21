@@ -11,8 +11,17 @@ var clock = document.getElementById("clock");
 
 // utilities for math, dates and http-requests (and more)
 
+function refreshPage() {
+    var city = forecastData.city.name;
+    var country = forecastData.city.country;
+    getCurrentWeather(city, country);
+    getForecastWeather(city, country);
+}
+
 function gerDay(day) {
     switch (day) {
+        case 0:
+            return "So";
         case 1:
             return "Mo";
         case 2:
@@ -25,8 +34,18 @@ function gerDay(day) {
             return "Fr";
         case 6:
             return "Sa";
-        case 7:
-            return "So";
+    }
+}
+
+function temp(k) {
+    var unit = getCookie("temperature");
+    switch (unit) {
+        case "Fahrenheit":
+            return Fahrenheit(k);
+        case "Kelvin":
+            return k;
+        default:
+            return Celsius(k);
     }
 }
 
@@ -34,8 +53,62 @@ function Celsius(k) {
     return Math.round((k - 273.15) * 100) / 100;
 }
 
+function Fahrenheit(k) {
+    return Math.round(((k - 273.15) * 9 / 5 + 32) * 100) / 100;
+}
+
+function press(hPa) {
+    if (getCookie("pressure") !== "hPa") {
+        return Bar(hPa);
+    } else {
+        return hPa;
+    }
+}
+
+function Bar(hPa) {
+    return hPa / 1000;
+}
+
+function windy(ms) {
+    var unit = getCookie("wind");
+    switch (unit) {
+        case "ms":
+            return ms;
+        case "mph":
+            return mph(ms);
+        case "knots":
+            return knots(ms);
+        default:
+            return kph(ms);
+    }
+}
+
 function kph(ms) {
-    return Math.round(ms * 3.6 * 100) / 100;
+    return Math.round(ms * 3.6 * 10) / 10;
+}
+
+function mph(ms) {
+    return Math.round((ms * 2.237) * 10) / 10;
+}
+
+function knots(ms) {
+    return Math.round((ms * 1.944) * 10) / 10
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
 
 async function getCurrentWeather(city, country) {
@@ -86,11 +159,11 @@ function plotCurrentWeather(data) {
     document.querySelector(".box-left .locationAdress .city").textContent = data.name;
     document.querySelector(".box-left .locationAdress .country").textContent = data.sys.country;
 
-    document.querySelector(".box-left .weatherDetails .temp div .value").textContent = Celsius(data.main.temp);
-    document.querySelector(".box-left .weatherDetails .tempLo div .value").textContent = Celsius(data.main.temp_min);
-    document.querySelector(".box-left .weatherDetails .tempHi div .value").textContent = Celsius(data.main.temp_max);
-    document.querySelector(".box-left .weatherDetails .pressure div .value").textContent = data.main.pressure;
-    document.querySelector(".box-left .weatherDetails .wind div p").textContent = data.wind.speed;
+    document.querySelector(".box-left .weatherDetails .temp div .value").textContent = temp(data.main.temp);
+    document.querySelector(".box-left .weatherDetails .tempLo div .value").textContent = temp(data.main.temp_min);
+    document.querySelector(".box-left .weatherDetails .tempHi div .value").textContent = temp(data.main.temp_max);
+    document.querySelector(".box-left .weatherDetails .pressure div .value").textContent = press(data.main.pressure);
+    document.querySelector(".box-left .weatherDetails .wind div p").textContent = windy(data.wind.speed);
     try {
         document.querySelector(".box-left .weatherDetails .wind div img").style.transform = "rotate(" + (data.wind.deg - 90).toString() + "deg)";
         document.querySelector(".box-left .weatherDetails .wind div img").alt = data.wind.deg.toString() + "°";
@@ -108,11 +181,11 @@ function plotForecast(id) {
     wObj = forecastData.list[id];
     date = toUTCDate(wObj.dt);
 
-    document.querySelector(".box-right .weatherDetails .temp div .value").textContent = Celsius(wObj.main.temp);
-    document.querySelector(".box-right .weatherDetails .tempLo div .value").textContent = Celsius(wObj.main.temp_min);
-    document.querySelector(".box-right .weatherDetails .tempHi div .value").textContent = Celsius(wObj.main.temp_max);
-    document.querySelector(".box-right .weatherDetails .pressure div .value").textContent = wObj.main.pressure;
-    document.querySelector(".box-right .weatherDetails .wind div p").textContent = wObj.wind.speed;
+    document.querySelector(".box-right .weatherDetails .temp div .value").textContent = temp(wObj.main.temp);
+    document.querySelector(".box-right .weatherDetails .tempLo div .value").textContent = temp(wObj.main.temp_min);
+    document.querySelector(".box-right .weatherDetails .tempHi div .value").textContent = temp(wObj.main.temp_max);
+    document.querySelector(".box-right .weatherDetails .pressure div .value").textContent = press(wObj.main.pressure);
+    document.querySelector(".box-right .weatherDetails .wind div p").textContent = windy(wObj.wind.speed);
     document.querySelector(".box-right .weatherDetails .wind div img").style.transform = "rotate(" + (wObj.wind.deg - 90).toString() + "deg)";
     document.querySelector(".box-right .weatherDetails .wind div img").alt = wObj.wind.deg.toString() + "°";
     document.querySelector(".box-right .weatherDetails .humidity div .value").textContent = wObj.main.humidity;
@@ -208,10 +281,18 @@ document.querySelector(".locationAdress").addEventListener("click", () => {
 });
 // event listeners for navbar icons (refresh, settings, about)
 document.getElementById("refresh").addEventListener("click", () => {
-    var city = forecastData.city.name;
-    var country = forecastData.city.country;
-    getCurrentWeather(city, country);
-    getForecastWeather(city, country);
+    refreshPage();
+});
+
+document.getElementById("settings").addEventListener("click", () => {
+    document.querySelector("div.settingsPanel").classList.toggle("settingsOpened");
+});
+document.getElementById("settings-save-btn").addEventListener("click", () => {
+    var settingsData = new FormData(document.querySelector(".settingsPanel form"));
+    document.cookie = "temperature=" + settingsData.get("temperature");
+    document.cookie = "pressure=" + settingsData.get("pressure");
+    document.cookie = "wind=" + settingsData.get("wind");
+    refreshPage();
 });
 
 // giving daySelector the correct days & setting it's tooltip to the correct date

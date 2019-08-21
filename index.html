@@ -24,6 +24,25 @@
                     <img id="about" src="./graphics/about.svg" alt="Über" />
                 </div>
             </nav>
+            <div class="settingsPanel">
+                <form>
+                    <h4>Temperatur</h4>
+                    <input type="radio" name="temperature" value="Celsius" checked>Celsius
+                    <input type="radio" name="temperature" value="Fahrenheit">Fahrenheit
+                    <input type="radio" name="temperature" value="Kelvin">Kelvin
+                    <h4>Druck</h4>
+                    <input type="radio" name="pressure" value="hPa" checked>hPa
+                    <input type="radio" name="pressure" value="Bar">Bar
+                    <h4>Wind</h4>
+                    <input type="radio" name="wind" value="ms">m/s
+                    <input type="radio" name="wind" value="kph" checked>km/h
+                    <input type="radio" name="wind" value="mph">m/h
+                    <input type="radio" name="wind" value="knots">Knoten
+
+                    <button id="settings-save-btn">Speichern</button>
+
+                </form>
+            </div>
         </header>
         <main>
             <noscript>
@@ -39,16 +58,16 @@
                 </div>
                 <div class="weatherDetails">
                     <div class="detail temp"><img src="./WeatherIcons/DarkMode/Temp.svg">
-                        <div><span class="value">17</span><span class="unit">°C</span></div>
+                        <div><span class="value">17</span></div>
                     </div>
                     <div class="detail tempLo"><img src="./WeatherIcons/DarkMode/TempLo.svg">
-                        <div><span class="value">12</span><span class="unit">°C</span></div>
+                        <div><span class="value">12</span></div>
                     </div>
                     <div class="detail tempHi"><img src="./WeatherIcons/DarkMode/TempHi.svg">
-                        <div><span class="value">24</span><span class="unit">°C</span></div>
+                        <div><span class="value">24</span></div>
                     </div>
                     <div class="detail pressure"><img src="./WeatherIcons/DarkMode/Pressure.svg">
-                        <div><span class="value">1013</span><span class="unit">hPa</span></div>
+                        <div><span class="value">1013</span></div>
                     </div>
                     <div class="detail wind">
                         <img src="./WeatherIcons/DarkMode/Wind.svg">
@@ -117,19 +136,19 @@
                     <div class="detail temp"><img src="./WeatherIcons/DarkMode/Temp.svg">
                         <div>
                             <span class="value">17</span>
-                            <span class="unit">°C</span>
+
                         </div>
                     </div>
                     <div class="detail tempLo"><img src="./WeatherIcons/DarkMode/TempLo.svg">
                         <div>
                             <span class="value">12</span>
-                            <span class="unit">°C</span>
+
                         </div>
                     </div>
                     <div class="detail tempHi"><img src="./WeatherIcons/DarkMode/TempHi.svg">
                         <div>
                             <span class="value">24</span>
-                            <span class="unit">°C</span>
+
                         </div>
                     </div>
                     <div class="detail pressure"><img src="./WeatherIcons/DarkMode/Pressure.svg">
