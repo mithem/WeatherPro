@@ -1,6 +1,4 @@
-    *,
-    *::before,
-    *::after {
+    * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -33,6 +31,17 @@
         height: 90vh;
     }
     
+    noscript {
+        z-index: 3;
+        color: red;
+        background-color: white;
+        border: 3px solid red;
+        border-radius: 10px;
+        position: absolute;
+        width: 100%;
+        padding: 10px;
+    }
+    
     nav {
         min-height: 10vh;
         width: 90%;
@@ -40,6 +49,16 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+    
+    nav .logoContainer {
+        display: flex;
+        align-items: center;
+    }
+    
+    nav .logoContainer img.logo-img {
+        height: 30px;
+        margin-right: 10px;
     }
     
     nav .icons img {
@@ -114,11 +133,18 @@
         border: none;
         border-radius: 16px;
         display: flex;
+        align-items: center;
+    }
+    
+    .detail img {
+        height: 50px;
+        width: 50px;
     }
     
     .detail div {
         margin: auto;
-        margin-right: 10px;
+        display: flex;
+        align-items: center;
     }
     
     .detail div span.value {
@@ -140,6 +166,7 @@
     
     .windDescription img {
         height: 15px;
+        width: 15px;
         margin: auto;
     }
     
@@ -176,7 +203,7 @@
     .daySelector {
         margin: auto;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr;
         grid-column-gap: 15px;
         grid-row-gap: 10px;
@@ -281,21 +308,78 @@
         body {
             height: 100%;
         }
+        nav .icons img {
+            margin-left: 50px;
+            height: 35px;
+            width: 35px;
+        }
         main {
-            grid-template-columns: 5% 1fr 5%;
-            grid-template-rows: 1fr 1fr;
+            grid-template-columns: 1fr;
+            grid-template-rows: 2fr 3fr;
             grid-auto-flow: row;
+            height: 100%;
+            justify-items: center;
         }
         section.box {
-            margin-top: 50px;
+            margin-top: 30px;
+            width: 80%;
+            justify-items: center;
+        }
+        section.box.box-left {
+            grid-column: 1/2;
+            grid-row: 1/2;
         }
         section.box.box-right {
-            grid-column: 2/3;
+            grid-column: 1/2;
             grid-row: 2/3;
             grid-template-columns: 1fr;
+            margin-bottom: 50px;
             height: 100%;
+            margin: auto;
+            margin-bottom: 20px;
         }
-        .detail {
-            justify-items: center;
+        .daySelector {
+            width: 100%;
+            justify-self: center;
+            margin: auto;
+        }
+        section.box-right .weatherDetails {
+            width: 80%;
+        }
+    }
+    
+    @media screen and (max-width: 500px) {
+        .logo-img {
+            height: 20px;
+        }
+        .logoContainer .logo {
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        nav .icons {
+            width: 100px;
+            display: flex;
+            margin-right: 20px;
+        }
+        nav .icons img {
+            margin-left: 30px;
+            height: 20px;
+            width: 20px;
+        }
+        main {
+            grid-template-columns: 1fr;
+            grid-column-gap: 0px;
+        }
+        section.box {
+            width: 95%;
+        }
+        .daySelector {
+            grid-column-gap: 5px;
+            grid-row-gap: 8px;
+        }
+        .day {
+            width: 42px;
+            height: 24px;
+            font-size: 16px;
         }
     }

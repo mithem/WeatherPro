@@ -7,21 +7,28 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Weather Pro</title>
         <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="favicon.ICO" type="image/x-icon"/>
-        <link rel="shortcut icon" href="favicon.ICO" type="image/x-icon"/>
+        <link rel="icon" href="favicon.ICO" type="image/x-icon" />
+        <link rel="shortcut icon" href="favicon.ICO" type="image/x-icon" />
     </head>
 
     <body>
         <header>
             <nav>
-                <h3 class="logo">Weather Pro</h3>
+                <div class="logoContainer">
+                    <img class="logo-img" src="./graphics/Logo.svg" alt="">
+                    <h3 class="logo">Weather Pro</h3>
+                </div>
                 <div class="icons">
-                    <img src="./graphics/settings.svg" alt="Settings" />
-                    <img src="./graphics/about.svg" alt="About" />
+                    <img id="refresh" src="./graphics/refresh.svg" alt="Aktualisieren">
+                    <img id="settings" src="./graphics/settings.svg" alt="Einstellungen" />
+                    <img id="about" src="./graphics/about.svg" alt="Über" />
                 </div>
             </nav>
         </header>
         <main>
+            <noscript>
+            <h1>Dieser Browser unterstützt kein JavaScript, weshalb keine Wetterdaten angezeigt werden können. Bitte Einstellungen überprüfen oder Browser wechseln.</h1>
+        </noscript>
             <section class="box box-left">
                 <div class="locationDescription">
                     <div class="weatherIcon"></div>
@@ -150,10 +157,6 @@
                         </div>
                     </div>
                     <div class="detail visibility">
-                        <img src="./WeatherIcons/DarkMode/Visibility.svg">
-                        <div>
-                            <span class="value">1</span>
-                        </div>
                     </div>
                     <div class="detail sunrise"><img src="./WeatherIcons/DarkMode/Sunrise.svg">
                         <div>

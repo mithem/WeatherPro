@@ -11,7 +11,7 @@ var clock = document.getElementById("clock");
 
 // utilities for math, dates and http-requests (and more)
 
-function deDay(day) {
+function gerDay(day) {
     switch (day) {
         case 1:
             return "Mo";
@@ -46,7 +46,7 @@ async function getCurrentWeather(city, country) {
     }
     req.onerror = function(e) {
         console.error(req.statusText);
-        alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler: " + req.statusText);
+        alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getCurrent): " + req.statusText);
     }
     req.send();
 }
@@ -55,10 +55,12 @@ async function getForecastWeather(city, country) {
     await requ.open("GET", "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + country + "&APPID=" + APIkey, true);
     requ.onload = function() {
         forecastData = JSON.parse(this.response);
+        moveTimestamp(1);
+        moveTimestamp(-1);
     }
     requ.onerror = function(e) {
         console.error(req.statusText);
-        alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler: " + req.statusText);
+        alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getForecast): " + req.statusText);
     }
     requ.send();
 }
@@ -157,7 +159,11 @@ function moveTimestamp(delta) {
         document.getElementById("clock").style.transform += "rotate(" + delta * 90 + "deg)";
     }
     document.querySelector(".clockContainer p").textContent = toUTCTime(wObj.dt) + "0";
-    document.querySelector(".is-active").classList.remove("is-active");
+    try {
+        document.querySelector(".is-active").classList.remove("is-active");
+    } catch (error) {
+        console.info(error);
+    }
     switch (toUTCDate(wObj.dt).getDay()) {
         case d0.getDay():
             document.querySelector(".d1").classList.add("is-active");
@@ -175,20 +181,52 @@ function moveTimestamp(delta) {
             document.querySelector(".d5").classList.add("is-active");
             break;
         default:
-            alert("Dies ist ein " + deDay(d5.getDay()))
+            alert("Dies ist ein " + gerDay(d5.getDay()))
             break;
     }
 }
 
 // event listeners for scrubbing the wheel
-document.body.addEventListener("wheel", () => {
+document.addEventListener("wheel", () => {
     const delta = Math.sign(event.deltaY);
     moveTimestamp(delta);
 });
-document.body.addEventListener("touchmove", () => {
+document.addEventListener("touchmove", function() {
     const delta = Math.sign(event.deltaY);
     moveTimestamp(delta);
 });
+// event listener for changing location
+document.querySelector(".locationAdress").addEventListener("click", () => {
+    var loc = prompt("Neuer Ort:\nBsp: Los Angeles,us", forecastData.city.name);
+    try {
+        reqLocation = loc.split(",");
+    } catch (error) {
+        alert("Bitte gültiges Ortsformat verwenden (siehe Beispiel im prompt)");
+    }
+    getCurrentWeather(reqLocation[0], reqLocation[1]);
+    getForecastWeather(reqLocation[0], reqLocation[1]);
+});
+// event listeners for navbar icons (refresh, settings, about)
+document.getElementById("refresh").addEventListener("click", () => {
+    var city = forecastData.city.name;
+    var country = forecastData.city.country;
+    getCurrentWeather(city, country);
+    getForecastWeather(city, country);
+});
+
+// giving daySelector the correct days & setting it's tooltip to the correct date
+document.querySelector(".d1").textContent = gerDay(d0.getDay());
+document.querySelector(".d2").textContent = gerDay(d1.getDay());
+document.querySelector(".d3").textContent = gerDay(d2.getDay());
+document.querySelector(".d4").textContent = gerDay(d3.getDay());
+document.querySelector(".d5").textContent = gerDay(d4.getDay());
+
+document.querySelector(".d1").title = d0.getDate();
+document.querySelector(".d2").title = d1.getDate();
+document.querySelector(".d3").title = d2.getDate();
+document.querySelector(".d4").title = d3.getDate();
+document.querySelector(".d5").title = d4.getDate();
+
 
 
 //
@@ -197,8 +235,8 @@ document.body.addEventListener("touchmove", () => {
 //
 //
 
-// checking wether device has iOS
+// checking wether device has iOS / macOS
 // (backup to touchmove event)
-if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+if (/iPad|iPhone|iPod|Mac/.test(navigator.userAgent) && !window.MSStream) {
     document.querySelector(".selectionModule").innerHTML += "<div class='mobile-btn-container'><div class='mobile-btn mobile-btn-plus' onclick='return moveTimestamp(1)' > + </div><div class='mobile-btn mobile-btn-minus' onclick='return moveTimestamp(-1)' > - </div></div>";
 }
