@@ -1,0 +1,55 @@
+body {
+    background-color: #C1C1D3;
+    color: white;
+}
+
+nav {
+    background-color: #C1C1D3;
+    color: black;
+}
+
+main {
+    background-color: white;
+    background: linear-gradient(to right, #833FFF50, #03FFEE50);
+}
+
+section.box {
+    background-color: #C9D3DA;
+}
+
+.locationAdress {
+    color: #333333;
+}
+
+.detail {
+    background: linear-gradient(to right, #CCCCFF, #BFBFFF);
+    color: #333333;
+}
+
+.box-right .weatherDetails .visibility {
+    background: transparent;
+}
+
+.day.is-active {
+    background-color: #343437;
+}
+
+.day {
+    background-color: #666670;
+}
+
+div.settingsPanel {
+    background-color: #EEEEEE;
+    color: #333333;
+    border: 2px solid #333333;
+}
+
+.mobile-btn {
+    background: linear-gradient(to right, #8888BB, #777788);
+}
+
+@media screen and (max-width: 500px) {
+    main {
+        background: linear-gradient(to bottom, #833FFF50, #03FFEE50);
+    }
+}

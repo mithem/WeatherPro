@@ -39,6 +39,11 @@
                     <input type="radio" name="wind" value="mph">m/h
                     <input type="radio" name="wind" value="knots">Knoten
 
+                    <h4>Erscheinungsbild</h4>
+                    <input type="radio" name="colorScheme" value="Auto" checked>Auto
+                    <input type="radio" name="colorScheme" value="Dark" disabled>Dunkel
+                    <input type="radio" name="colorScheme" value="Light" disabled>Hell
+
                     <button id="settings-save-btn">Speichern</button>
 
                 </form>
@@ -152,7 +157,7 @@
                         </div>
                     </div>
                     <div class="detail pressure"><img src="./WeatherIcons/DarkMode/Pressure.svg">
-                        <div><span class="value">1013</span><span class="unit">hPa</span></div>
+                        <div><span class="value">1013</span></div>
                     </div>
                     <div class="detail wind">
                         <img src="./WeatherIcons/DarkMode/Wind.svg">

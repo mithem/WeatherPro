@@ -1,0 +1,47 @@
+body {
+    color: #EEEEEE;
+    background-color: #313137;
+}
+
+nav {
+    background-color: #313137;
+    color: white;
+}
+
+main {
+    background-color: #454558;
+}
+
+section.box {
+    background-color: #68687F;
+}
+
+.locationAdress {
+    color: #EEEEEE;
+}
+
+.detail {
+    background-color: #454558;
+}
+
+.box-right .weatherDetails .visibility {
+    background-color: transparent;
+}
+
+.day {
+    background-color: #454558;
+}
+
+.day.is-active {
+    background-color: #343437;
+}
+
+div.settingsPanel {
+    background-color: #333333;
+    color: #EEEEEE;
+    border: 2px solid #777777;
+}
+
+.mobile-btn {
+    background-color: #343437;
+}

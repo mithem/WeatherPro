@@ -5,11 +5,17 @@ const APIkey = "3a1fcf20bd2c469656a9ab0e1c686428";
 var timeIndex = 0
 var forecastData;
 var wObj;
+var settingsData = new FormData(document.querySelector(".settingsPanel form"));
+
 
 // declaring clock (to transform)
 var clock = document.getElementById("clock");
 
 // utilities for math, dates and http-requests (and more)
+
+function getSettings() {
+    settingsData = new FormData(document.querySelector(".settingsPanel form"));
+}
 
 function refreshPage() {
     var city = forecastData.city.name;
@@ -66,7 +72,7 @@ function press(hPa) {
 }
 
 function Bar(hPa) {
-    return hPa / 1000;
+    return Math.round(hPa / 10) / 100;
 }
 
 function windy(ms) {
@@ -118,8 +124,7 @@ async function getCurrentWeather(city, country) {
         plotCurrentWeather(JSON.parse(this.response));
     }
     req.onerror = function(e) {
-        console.error(req.statusText);
-        alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getCurrent): " + req.statusText);
+        console.error("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getCurrent): " + req.statusText);
     }
     req.send();
 }
@@ -132,8 +137,7 @@ async function getForecastWeather(city, country) {
         moveTimestamp(-1);
     }
     requ.onerror = function(e) {
-        console.error(req.statusText);
-        alert("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getForecast): " + req.statusText);
+        console.error("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getForecast): " + req.statusText);
     }
     requ.send();
 }
@@ -203,10 +207,10 @@ function plotForecast(id) {
 }
 
 // getting current weather & displaying it
-getCurrentWeather("Lohmar", "de");
+getCurrentWeather("Berlin", "de");
 
 // getting forecast data & saving it
-forecastData = getForecastWeather("Lohmar", "de");
+forecastData = getForecastWeather("Berlin", "de");
 
 // initializing vars for handling day-switching
 var d0 = new Date();
@@ -229,7 +233,7 @@ function moveTimestamp(delta) {
     } else {
         timeIndex += delta;
         plotForecast(timeIndex);
-        document.getElementById("clock").style.transform += "rotate(" + delta * 90 + "deg)";
+        document.getElementById("clock").style.transform = "rotate(" + toUTCDate(wObj.dt).getHours() * 30 + "deg)";
     }
     document.querySelector(".clockContainer p").textContent = toUTCTime(wObj.dt) + "0";
     try {
@@ -288,11 +292,18 @@ document.getElementById("settings").addEventListener("click", () => {
     document.querySelector("div.settingsPanel").classList.toggle("settingsOpened");
 });
 document.getElementById("settings-save-btn").addEventListener("click", () => {
-    var settingsData = new FormData(document.querySelector(".settingsPanel form"));
+    settingsData = new FormData(document.querySelector(".settingsPanel form"));
     document.cookie = "temperature=" + settingsData.get("temperature");
     document.cookie = "pressure=" + settingsData.get("pressure");
     document.cookie = "wind=" + settingsData.get("wind");
-    refreshPage();
+    document.cookie = "colorScheme=" + settingsData.get("colorScheme");
+    if (getCookie("colorScheme") === "Auto") {
+        autoScheme();
+    } else {
+        window.matchMedia("(prefers-color-scheme: dark)").removeListener(window.matchMedia("(prefers-color-scheme: dark)"));
+        alert("removed listener for color-scheme-change");
+        changeColorScheme(getCookie("colorScheme"));
+    }
 });
 
 // giving daySelector the correct days & setting it's tooltip to the correct date
@@ -308,12 +319,41 @@ document.querySelector(".d3").title = d2.getDate();
 document.querySelector(".d4").title = d3.getDate();
 document.querySelector(".d5").title = d4.getDate();
 
-
-
 //
+// dark & light mode toggling
+//
+
+function changeColorScheme(scheme) {
+    // document.getElementById("temp").disabled = true;
+    var link = document.createElement("link");
+    link.id = "temp"
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    var file;
+    if (scheme.toLowerCase() === "dark") {
+        file = "./dark.css";
+    } else {
+        file = "./light.css";
+    }
+    link.href = file.substr(0, file.lastIndexOf(".")) + ".css";
+    document.getElementsByTagName("body")[0].appendChild(link);
+}
+
+window.matchMedia("(prefers-color-scheme: dark)").matches ? changeColorScheme("dark") : changeColorScheme("light");
+
+window.matchMedia("(prefers-color-scheme: dark)").addListener((e) => {
+    e.matches ? changeColorScheme("dark") : changeColorScheme("light");
+});
+
+function autoScheme() {
+    window.matchMedia("(prefers-color-scheme: dark)").addListener((e) => {
+        alert("changing scheme automatically");
+        e.matches ? changeColorScheme("dark") : changeColorScheme("light");
+    });
+    alert("added listener for color scheme");
+}
 //
 // for css media queries
-//
 //
 
 // checking wether device has iOS / macOS
