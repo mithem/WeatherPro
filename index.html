@@ -25,7 +25,7 @@
                 </div>
             </nav>
             <div class="settingsPanel">
-                <form>
+                <form onsubmit="return false">
                     <h4>Temperatur</h4>
                     <input type="radio" name="temperature" value="Celsius" checked>Celsius
                     <input type="radio" name="temperature" value="Fahrenheit">Fahrenheit
@@ -41,8 +41,8 @@
 
                     <h4>Erscheinungsbild</h4>
                     <input type="radio" name="colorScheme" value="Auto" checked>Auto
-                    <input type="radio" name="colorScheme" value="Dark" disabled>Dunkel
-                    <input type="radio" name="colorScheme" value="Light" disabled>Hell
+                    <input type="radio" name="colorScheme" value="Dark">Dunkel
+                    <input type="radio" name="colorScheme" value="Light">Hell
 
                     <button id="settings-save-btn">Speichern</button>
 
@@ -52,7 +52,9 @@
         <main>
             <noscript>
             <h1>Dieser Browser unterstützt kein JavaScript, weshalb keine Wetterdaten angezeigt werden können. Bitte Einstellungen überprüfen oder Browser wechseln.</h1>
-        </noscript>
+            </noscript>
+            <link rel="stylesheet" id="light" href="./light.css" type="text/css">
+            <link rel="stylesheet" id="dark" href="./dark.css" type="text/css">
             <section class="box box-left">
                 <div class="locationDescription">
                     <div class="weatherIcon"></div>

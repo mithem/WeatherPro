@@ -16,12 +16,62 @@ var clock = document.getElementById("clock");
 function getSettings() {
     settingsData = new FormData(document.querySelector(".settingsPanel form"));
 }
+//
+// dark & light mode toggling
+//
 
-function refreshPage() {
+function checkColorScheme() {
+    if (getCookie("colorScheme") === "Auto") {
+        darkModeQuery.matches ? changeColorScheme("dark") : changeColorScheme("light");
+        activateAutoScheme();
+    } else {
+        deactivateAutoScheme();
+        changeColorScheme(getCookie("colorScheme"));
+    }
+}
+
+function changeColorScheme(scheme) {
+    switch (scheme.toLowerCase()) {
+        case "light":
+            document.getElementById("light").disabled = false;
+            document.getElementById("dark").disabled = true;
+            break;
+        default:
+            document.getElementById("light").disabled = true;
+            document.getElementById("dark").disabled = false;
+    }
+}
+
+var darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+function autoSchemeChange() {
+    !darkModeQuery.matches ? changeColorScheme("light") : changeColorScheme("dark");
+}
+
+function activateAutoScheme() {
+    darkModeQuery.addListener(autoSchemeChange);
+}
+
+function deactivateAutoScheme() {
+    darkModeQuery.removeListener(autoSchemeChange);
+}
+
+function refrData() {
     var city = forecastData.city.name;
     var country = forecastData.city.country;
     getCurrentWeather(city, country);
     getForecastWeather(city, country);
+    document.querySelector(".d1").textContent = gerDay(d0.getDay());
+    document.querySelector(".d2").textContent = gerDay(d1.getDay());
+    document.querySelector(".d3").textContent = gerDay(d2.getDay());
+    document.querySelector(".d4").textContent = gerDay(d3.getDay());
+    document.querySelector(".d5").textContent = gerDay(d4.getDay());
+
+    document.querySelector(".d1").title = d0.getDate();
+    document.querySelector(".d2").title = d1.getDate();
+    document.querySelector(".d3").title = d2.getDate();
+    document.querySelector(".d4").title = d3.getDate();
+    document.querySelector(".d5").title = d4.getDate();
 }
 
 function gerDay(day) {
@@ -283,75 +333,33 @@ document.querySelector(".locationAdress").addEventListener("click", () => {
     getCurrentWeather(reqLocation[0], reqLocation[1]);
     getForecastWeather(reqLocation[0], reqLocation[1]);
 });
-// event listeners for navbar icons (refresh, settings, about)
-document.getElementById("refresh").addEventListener("click", () => {
-    refreshPage();
-});
 
-document.getElementById("settings").addEventListener("click", () => {
-    document.querySelector("div.settingsPanel").classList.toggle("settingsOpened");
-});
-document.getElementById("settings-save-btn").addEventListener("click", () => {
+function applySettings() {
     settingsData = new FormData(document.querySelector(".settingsPanel form"));
     document.cookie = "temperature=" + settingsData.get("temperature");
     document.cookie = "pressure=" + settingsData.get("pressure");
     document.cookie = "wind=" + settingsData.get("wind");
     document.cookie = "colorScheme=" + settingsData.get("colorScheme");
-    if (getCookie("colorScheme") === "Auto") {
-        autoScheme();
-    } else {
-        window.matchMedia("(prefers-color-scheme: dark)").removeListener(window.matchMedia("(prefers-color-scheme: dark)"));
-        alert("removed listener for color-scheme-change");
-        changeColorScheme(getCookie("colorScheme"));
-    }
-});
-
-// giving daySelector the correct days & setting it's tooltip to the correct date
-document.querySelector(".d1").textContent = gerDay(d0.getDay());
-document.querySelector(".d2").textContent = gerDay(d1.getDay());
-document.querySelector(".d3").textContent = gerDay(d2.getDay());
-document.querySelector(".d4").textContent = gerDay(d3.getDay());
-document.querySelector(".d5").textContent = gerDay(d4.getDay());
-
-document.querySelector(".d1").title = d0.getDate();
-document.querySelector(".d2").title = d1.getDate();
-document.querySelector(".d3").title = d2.getDate();
-document.querySelector(".d4").title = d3.getDate();
-document.querySelector(".d5").title = d4.getDate();
-
-//
-// dark & light mode toggling
-//
-
-function changeColorScheme(scheme) {
-    // document.getElementById("temp").disabled = true;
-    var link = document.createElement("link");
-    link.id = "temp"
-    link.type = "text/css";
-    link.rel = "stylesheet";
-    var file;
-    if (scheme.toLowerCase() === "dark") {
-        file = "./dark.css";
-    } else {
-        file = "./light.css";
-    }
-    link.href = file.substr(0, file.lastIndexOf(".")) + ".css";
-    document.getElementsByTagName("body")[0].appendChild(link);
+    checkColorScheme();
 }
 
-window.matchMedia("(prefers-color-scheme: dark)").matches ? changeColorScheme("dark") : changeColorScheme("light");
 
-window.matchMedia("(prefers-color-scheme: dark)").addListener((e) => {
-    e.matches ? changeColorScheme("dark") : changeColorScheme("light");
+function toggleSettingsPanel() {
+    document.querySelector("div.settingsPanel").classList.toggle("settingsOpened");
+}
+// event listeners for navbar icons (refresh, settings, about)
+document.getElementById("refresh").addEventListener("click", () => {
+    refrData();
 });
 
-function autoScheme() {
-    window.matchMedia("(prefers-color-scheme: dark)").addListener((e) => {
-        alert("changing scheme automatically");
-        e.matches ? changeColorScheme("dark") : changeColorScheme("light");
-    });
-    alert("added listener for color scheme");
-}
+document.getElementById("settings").addEventListener("click", () => {
+    toggleSettingsPanel();
+});
+document.getElementById("settings-save-btn").addEventListener("click", () => {
+    applySettings();
+    toggleSettingsPanel();
+});
+
 //
 // for css media queries
 //
@@ -361,3 +369,5 @@ function autoScheme() {
 if (/iPad|iPhone|iPod|Mac/.test(navigator.userAgent) && !window.MSStream) {
     document.querySelector(".selectionModule").innerHTML += "<div class='mobile-btn-container'><div class='mobile-btn mobile-btn-plus' onclick='return moveTimestamp(1)' > + </div><div class='mobile-btn mobile-btn-minus' onclick='return moveTimestamp(-1)' > - </div></div>";
 }
+
+checkColorScheme();
