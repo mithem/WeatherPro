@@ -451,7 +451,7 @@ async function getForecastWeatherCoords(lat, long) {
     req.send();
 }
 
-//getUserLocation();
+getUserLocation();
 
 //
 // for css media queries
