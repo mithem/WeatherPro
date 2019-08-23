@@ -2,6 +2,17 @@
 <html lang="en">
 
     <head>
+        <!-- Google Analytics -->
+        <script>
+            window.ga = window.ga || function() {
+                (ga.q = ga.q || []).push(arguments)
+            };
+            ga.l = +new Date;
+            ga('create', 'UA-130032663-2', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <script async src='https://www.google-analytics.com/analytics.js'></script>
+        <!-- End Google Analytics -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -19,12 +30,13 @@
                     <h3 class="logo">Weather Pro</h3>
                 </div>
                 <div class="icons">
+                    <img src="./graphics/Location.svg" alt="Standort ermitteln" id="location">
                     <img id="refresh" src="./graphics/refresh.svg" alt="Aktualisieren">
                     <img id="settings" src="./graphics/settings.svg" alt="Einstellungen" />
                     <img id="about" src="./graphics/about.svg" alt="Über" />
                 </div>
             </nav>
-            <div class="settingsPanel">
+            <div class="panel settingsPanel">
                 <form onsubmit="return false">
                     <h4>Temperatur</h4>
                     <input type="radio" name="temperature" value="Celsius" checked>Celsius
@@ -48,6 +60,13 @@
 
                 </form>
             </div>
+            <div class="panel infoPanel">
+                <h3>Hi.</h3>
+                <p>Danke für's besuchen.</p>
+                <p>Der Sonnenauf/-untergang ist übrigens nicht errechnet, sondern der des aktuellen Tages. Dies ist durch die Daten von openweathermap.org bedingt.</p>
+                <p>Diese Seite nutzt btw Cookies & Google Analytics.</p>
+                <p>Viel Glück beim Wetter :D.</p>
+            </div>
         </header>
         <main>
             <noscript>
@@ -59,43 +78,44 @@
                 <div class="locationDescription">
                     <div class="weatherIcon"></div>
                     <div class="locationAdress">
-                        <div class="city">K&ouml;ln</div>
-                        <div class="country">Deutschland</div>
+                        <div class="city"></div>
+                        <div class="country"></div>
                     </div>
                 </div>
                 <div class="weatherDetails">
                     <div class="detail temp"><img src="./WeatherIcons/DarkMode/Temp.svg">
-                        <div><span class="value">17</span></div>
+                        <div><span class="value"></span></div>
                     </div>
                     <div class="detail tempLo"><img src="./WeatherIcons/DarkMode/TempLo.svg">
-                        <div><span class="value">12</span></div>
+                        <div><span class="value"></span></div>
                     </div>
                     <div class="detail tempHi"><img src="./WeatherIcons/DarkMode/TempHi.svg">
-                        <div><span class="value">24</span></div>
+                        <div><span class="value"></span></div>
                     </div>
                     <div class="detail pressure"><img src="./WeatherIcons/DarkMode/Pressure.svg">
-                        <div><span class="value">1013</span></div>
+                        <div><span class="value"></span></div>
                     </div>
                     <div class="detail wind">
                         <img src="./WeatherIcons/DarkMode/Wind.svg">
-                        <div class="windDescription"><img src="./graphics/Arrow.svg" alt="90°">
-                            <p>12</p>
+                        <div class="windDescription">
+                            <img src="./graphics/Arrow.svg" alt="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="detail humidity"><img src="./WeatherIcons/DarkMode/Humidity.svg">
-                        <div><span class="value">72</span><span class="unit">%</span></div>
+                        <div><span class="value"></span><span class="unit">%</span></div>
                     </div>
                     <div class="detail cloudiness"><img src="./WeatherIcons/DarkMode/Cloud.svg">
-                        <div><span class="value">30</span><span class="unit">%</span></div>
+                        <div><span class="value"></span><span class="unit">%</span></div>
                     </div>
                     <div class="detail visibility"><img src="./WeatherIcons/DarkMode/Visibility.svg">
-                        <div><span class="value">1</span></div>
+                        <div><span class="value"></span></div>
                     </div>
                     <div class="detail sunrise"><img src="./WeatherIcons/DarkMode/Sunrise.svg">
-                        <div><span class="value">00:00</span></div>
+                        <div><span class="value"></span></div>
                     </div>
                     <div class="detail sunset"><img src="./WeatherIcons/DarkMode/Sunset.svg">
-                        <div><span class="value">00:00</span></div>
+                        <div><span class="value"></span></div>
                     </div>
                 </div>
             </section>
@@ -142,43 +162,43 @@
                 <div class="weatherDetails">
                     <div class="detail temp"><img src="./WeatherIcons/DarkMode/Temp.svg">
                         <div>
-                            <span class="value">17</span>
+                            <span class="value"></span>
 
                         </div>
                     </div>
                     <div class="detail tempLo"><img src="./WeatherIcons/DarkMode/TempLo.svg">
                         <div>
-                            <span class="value">12</span>
+                            <span class="value"></span>
 
                         </div>
                     </div>
                     <div class="detail tempHi"><img src="./WeatherIcons/DarkMode/TempHi.svg">
                         <div>
-                            <span class="value">24</span>
+                            <span class="value"></span>
 
                         </div>
                     </div>
                     <div class="detail pressure"><img src="./WeatherIcons/DarkMode/Pressure.svg">
-                        <div><span class="value">1013</span></div>
+                        <div><span class="value"></span></div>
                     </div>
                     <div class="detail wind">
                         <img src="./WeatherIcons/DarkMode/Wind.svg">
                         <div class="windDescription">
-                            <img src="./graphics/Arrow.svg" alt="90°">
-                            <p>12</p>
+                            <img src="./graphics/Arrow.svg" alt="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="detail humidity">
                         <img src="./WeatherIcons/DarkMode/Humidity.svg">
                         <div>
-                            <span class="value">72</span>
+                            <span class="value"></span>
                             <span class="unit">%</span>
                         </div>
                     </div>
                     <div class="detail cloudiness">
                         <img src="./WeatherIcons/DarkMode/Cloud.svg">
                         <div>
-                            <span class="value">30</span>
+                            <span class="value"></span>
                             <span class="unit">%</span>
                         </div>
                     </div>
@@ -186,12 +206,12 @@
                     </div>
                     <div class="detail sunrise"><img src="./WeatherIcons/DarkMode/Sunrise.svg">
                         <div>
-                            <span class="value">00:00</span>
+                            <span class="value"></span>
                         </div>
                     </div>
                     <div class="detail sunset"><img src="./WeatherIcons/DarkMode/Sunset.svg">
                         <div>
-                            <span class="value">00:00</span>
+                            <span class="value"></span>
                         </div>
                     </div>
                 </div>

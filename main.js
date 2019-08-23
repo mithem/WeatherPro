@@ -1,11 +1,13 @@
 // APIkey for the openweathermap.org current & 5d/3h-forecast APIs
 const APIkey = "3a1fcf20bd2c469656a9ab0e1c686428";
 
-// declaring (/init) timeIndex for forcast & forecast data 'object'
+// declaring (/init) timeIndex for forcast & forecast data 'object' as well as other stuff
 var timeIndex = 0
 var forecastData;
 var wObj;
 var settingsData = new FormData(document.querySelector(".settingsPanel form"));
+var darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
 
 
 // declaring clock (to transform)
@@ -20,6 +22,9 @@ function getSettings() {
 // dark & light mode toggling
 //
 
+checkColorScheme();
+
+
 function checkColorScheme() {
     if (getCookie("colorScheme") === "Auto") {
         darkModeQuery.matches ? changeColorScheme("dark") : changeColorScheme("light");
@@ -31,18 +36,24 @@ function checkColorScheme() {
 }
 
 function changeColorScheme(scheme) {
+    var imgs = document.querySelectorAll(".detail img");
     switch (scheme.toLowerCase()) {
         case "light":
             document.getElementById("light").disabled = false;
             document.getElementById("dark").disabled = true;
+            imgs.forEach(i => {
+                i.src = i.src.replace("DarkMode", "LightMode");
+            });
             break;
         default:
             document.getElementById("light").disabled = true;
             document.getElementById("dark").disabled = false;
+            imgs.forEach(i => {
+                i.src = i.src.replace("LightMode", "DarkMode");
+            });
     }
 }
 
-var darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
 function autoSchemeChange() {
     !darkModeQuery.matches ? changeColorScheme("light") : changeColorScheme("dark");
@@ -57,10 +68,22 @@ function deactivateAutoScheme() {
 }
 
 function refrData() {
-    var city = forecastData.city.name;
-    var country = forecastData.city.country;
-    getCurrentWeather(city, country);
-    getForecastWeather(city, country);
+    try {
+        var city = forecastData.city.name;
+        var country = forecastData.city.country;
+        getCurrentWeather(city, country);
+        getForecastWeather(city, country);
+    } catch (error) {
+        try {
+            getUserLocation();
+            alert("hohoho");
+        } catch (error) {
+            alert("hahahah");
+            getCurrentWeather("Berlin", "de");
+            getForecastWeather("Berlin", "de");
+        };
+    }
+
     document.querySelector(".d1").textContent = gerDay(d0.getDay());
     document.querySelector(".d2").textContent = gerDay(d1.getDay());
     document.querySelector(".d3").textContent = gerDay(d2.getDay());
@@ -117,12 +140,12 @@ function press(hPa) {
     if (getCookie("pressure") !== "hPa") {
         return Bar(hPa);
     } else {
-        return hPa;
+        return Math.round(hPa * 10) / 10;
     }
 }
 
 function Bar(hPa) {
-    return Math.round(hPa / 10) / 100;
+    return Math.round(hPa / 100) / 10;
 }
 
 function windy(ms) {
@@ -168,10 +191,11 @@ function getCookie(cname) {
 }
 
 async function getCurrentWeather(city, country) {
-    req = new XMLHttpRequest();
+    var req = new XMLHttpRequest();
     await req.open("GET", "https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + country + "&APPID=" + APIkey, true);
     req.onload = function() {
         plotCurrentWeather(JSON.parse(this.response));
+        console.info("current weather repsonse: " + this.statusText);
     }
     req.onerror = function(e) {
         console.error("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getCurrent): " + req.statusText);
@@ -179,17 +203,17 @@ async function getCurrentWeather(city, country) {
     req.send();
 }
 async function getForecastWeather(city, country) {
-    requ = new XMLHttpRequest();
-    await requ.open("GET", "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + country + "&APPID=" + APIkey, true);
-    requ.onload = function() {
+    var req = new XMLHttpRequest();
+    await req.open("GET", "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + country + "&APPID=" + APIkey, true);
+    req.onload = function() {
         forecastData = JSON.parse(this.response);
-        moveTimestamp(1);
-        moveTimestamp(-1);
+        console.info("forecast weather repsonse: " + this.statusText);
+        plotForecast(0);
     }
-    requ.onerror = function(e) {
+    req.onerror = function(e) {
         console.error("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getForecast): " + req.statusText);
     }
-    requ.send();
+    req.send();
 }
 
 function toUTCTime(unix) {
@@ -221,6 +245,7 @@ function plotCurrentWeather(data) {
     try {
         document.querySelector(".box-left .weatherDetails .wind div img").style.transform = "rotate(" + (data.wind.deg - 90).toString() + "deg)";
         document.querySelector(".box-left .weatherDetails .wind div img").alt = data.wind.deg.toString() + "°";
+        document.querySelector(".box-left .weatherDetails .wind div img").path.stroke = "#00FF00";
     } catch {
         console.warn("Error while parsing wind. Probably no wind direction available due to low speed");
     }
@@ -252,15 +277,7 @@ function plotForecast(id) {
 
     document.querySelector(".box-right .weatherDetails .sunrise div .value").textContent = document.querySelector(".box-left .weatherDetails .sunrise div .value").textContent;
     document.querySelector(".box-right .weatherDetails .sunset div .value").textContent = document.querySelector(".box-left .weatherDetails .sunset div .value").textContent;
-
-    // console.debug("current forecast:\nid: " + id + "\n\ntimestamp: " + wObj.dt + "\nnormalised: " + toUTCDate(wObj.dt) + "\n\nforecastHour: " + forecastHour.toString() + "\nfiveDayTracker: " + fiveDayTracker.toString() + "\ncurrentDay: " + currentDay);
 }
-
-// getting current weather & displaying it
-getCurrentWeather("Berlin", "de");
-
-// getting forecast data & saving it
-forecastData = getForecastWeather("Berlin", "de");
 
 // initializing vars for handling day-switching
 var d0 = new Date();
@@ -275,6 +292,17 @@ d2.setDate(d2.getDate() + 2);
 d3.setDate(d3.getDate() + 3);
 d4.setDate(d4.getDate() + 4);
 d5.setDate(d5.getDate() + 5);
+
+// giving the dayselector the correct days
+function initDaysOfDaySelector() {
+    document.querySelector(".d1").textContent = gerDay(d0.getDay());
+    document.querySelector(".d2").textContent = gerDay(d1.getDay());
+    document.querySelector(".d3").textContent = gerDay(d2.getDay());
+    document.querySelector(".d4").textContent = gerDay(d3.getDay());
+    document.querySelector(".d5").textContent = gerDay(d4.getDay());
+}
+
+initDaysOfDaySelector();
 
 // handling mousewheel-movement to 'scroll' through weather forecast
 function moveTimestamp(delta) {
@@ -313,26 +341,26 @@ function moveTimestamp(delta) {
     }
 }
 
-// event listeners for scrubbing the wheel
-document.addEventListener("wheel", () => {
-    const delta = Math.sign(event.deltaY);
-    moveTimestamp(delta);
-});
-document.addEventListener("touchmove", function() {
-    const delta = Math.sign(event.deltaY);
-    moveTimestamp(delta);
-});
-// event listener for changing location
-document.querySelector(".locationAdress").addEventListener("click", () => {
-    var loc = prompt("Neuer Ort:\nBsp: Los Angeles,us", forecastData.city.name);
+// changing the location
+
+function changeLocation() {
+    var loc
     try {
-        reqLocation = loc.split(",");
+        loc = prompt("Neuer Ort:\nBsp: Los Angeles,us", forecastData.city.name);
     } catch (error) {
-        alert("Bitte gültiges Ortsformat verwenden (siehe Beispiel im prompt)");
+        loc = prompt("Neuer Ort:\nBsp: Los Angeles,us", "Berlin,de");
     }
-    getCurrentWeather(reqLocation[0], reqLocation[1]);
-    getForecastWeather(reqLocation[0], reqLocation[1]);
-});
+    if (loc) {
+        try {
+            reqLocation = loc.split(",");
+            getCurrentWeather(reqLocation[0], reqLocation[1]);
+            getForecastWeather(reqLocation[0], reqLocation[1]);
+        } catch (error) {
+            alert("Bitte gültiges Ortsformat verwenden (siehe Beispiel im prompt)");
+        }
+    }
+}
+
 
 function applySettings() {
     settingsData = new FormData(document.querySelector(".settingsPanel form"));
@@ -345,20 +373,85 @@ function applySettings() {
 
 
 function toggleSettingsPanel() {
-    document.querySelector("div.settingsPanel").classList.toggle("settingsOpened");
+    document.querySelector("div.settingsPanel").classList.toggle("panelOpened");
 }
-// event listeners for navbar icons (refresh, settings, about)
-document.getElementById("refresh").addEventListener("click", () => {
-    refrData();
-});
 
-document.getElementById("settings").addEventListener("click", () => {
-    toggleSettingsPanel();
-});
-document.getElementById("settings-save-btn").addEventListener("click", () => {
-    applySettings();
-    toggleSettingsPanel();
-});
+function toggleInfoPanel() {
+    document.querySelector("div.infoPanel").classList.toggle("panelOpened");
+}
+
+
+//
+// geolaction for locating the user
+//
+
+var userLatitude;
+var userLongitude;
+
+function getWeatherAtCoords(position) {
+    userLatitude = position.coords.latitude;
+    userLongitude = position.coords.longitude;
+    getCurrentWeatherCoords(userLatitude, userLongitude);
+    getForecastWeatherCoords(userLatitude, userLongitude);
+}
+
+function handlePositionErrors(e) {
+    var msg = "GeoLocationError:\n\nStatusCode: " + e.code + "\nMessage: " + e.message;
+    console.error(msg);
+    alert(msg);
+    changeLocation();
+}
+
+function getUserLocation() {
+    if (navigator.geolocation) {
+        try {
+            navigator.geolocation.getCurrentPosition(getWeatherAtCoords, handlePositionErrors);
+        } catch (error) {
+            alert(error);
+        }
+    } else {
+        alert("Standort kann nicht ermittelt werden. Bitte Stadt eingeben");
+        changeLocation();
+    }
+}
+
+
+
+
+// getCurrentWeather("Berlin", "de");
+// getForecastWeather("Berlin", "de");
+// plotForecast(0);
+
+
+
+async function getCurrentWeatherCoords(lat, long) {
+    var req = new XMLHttpRequest();
+    await req.open("GET", "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + long + "&APPID=" + APIkey, true);
+    req.onload = function() {
+        plotCurrentWeather(JSON.parse(this.response));
+        console.info("current weather repsonse (coords): " + this.statusText);
+    }
+    req.onerror = function(e) {
+        console.error("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getCurrentWeatherByCoords): " + req.statusText);
+    }
+    req.send();
+}
+
+async function getForecastWeatherCoords(lat, long) {
+    var req = new XMLHttpRequest();
+    await req.open("GET", "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + long + "&APPID=" + APIkey, true);
+    req.onload = function() {
+        console.info("forecast weather repsonse (coords): " + this.statusText);
+        forecastData = JSON.parse(this.response);
+        plotForecast(0);
+    }
+    req.onerror = function(e) {
+        console.error("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getForecastWeatherByCoords): " + req.statusText + "(" + e + ")");
+    }
+    req.send();
+}
+
+//getUserLocation();
 
 //
 // for css media queries
@@ -370,4 +463,42 @@ if (/iPad|iPhone|iPod|Mac/.test(navigator.userAgent) && !window.MSStream) {
     document.querySelector(".selectionModule").innerHTML += "<div class='mobile-btn-container'><div class='mobile-btn mobile-btn-plus' onclick='return moveTimestamp(1)' > + </div><div class='mobile-btn mobile-btn-minus' onclick='return moveTimestamp(-1)' > - </div></div>";
 }
 
-checkColorScheme();
+
+if (!getCookie("cookieWarning")) {
+    var cookieWarning = document.createElement("div");
+    cookieWarning.className = "cookieWarning";
+    document.body.appendChild(cookieWarning);
+    cookieWarning.innerHTML = "<p>Diese Seite verwendet Cookies zum Speichern der Einstellungen und Google Analytics</p><button>ok</button>";
+    document.getElementsByClassName("cookieWarning")[0].addEventListener("click", () => {
+        document.cookie = "cookieWarning=true;";
+        document.getElementsByClassName("cookieWarning")[0].style.display = "none";
+    })
+}
+
+//
+// event listeners
+//
+
+// event listeners for scrubbing the wheel
+document.addEventListener("wheel", () => {
+    const delta = Math.sign(event.deltaY);
+    moveTimestamp(delta);
+});
+document.addEventListener("touchmove", function() {
+    const delta = Math.sign(event.deltaY);
+    moveTimestamp(delta);
+});
+
+// for changing location
+document.querySelector(".logoContainer").addEventListener("click", changeLocation);
+document.querySelector(".locationAdress").addEventListener("click", changeLocation);
+
+// Navbar icons
+document.getElementById("refresh").addEventListener("click", refrData);
+document.getElementById("settings").addEventListener("click", toggleSettingsPanel);
+document.getElementById("settings-save-btn").addEventListener("click", () => {
+    applySettings();
+    toggleSettingsPanel();
+});
+document.getElementById("about").addEventListener("click", toggleInfoPanel);
+document.getElementById("location").addEventListener("click", getUserLocation);
