@@ -76,9 +76,7 @@ function refrData() {
     } catch (error) {
         try {
             getUserLocation();
-            alert("hohoho");
         } catch (error) {
-            alert("hahahah");
             getCurrentWeather("Berlin", "de");
             getForecastWeather("Berlin", "de");
         };
@@ -414,15 +412,6 @@ function getUserLocation() {
         changeLocation();
     }
 }
-
-
-
-
-// getCurrentWeather("Berlin", "de");
-// getForecastWeather("Berlin", "de");
-// plotForecast(0);
-
-
 
 async function getCurrentWeatherCoords(lat, long) {
     var req = new XMLHttpRequest();
