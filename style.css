@@ -364,6 +364,16 @@
         .detail div span.value {
             font-size: 12px;
         }
+        .wind img {
+            width: 42px;
+        }
+        .windDescription p {
+            font-size: 10px;
+        }
+        .windDescription img {
+            height: 20px;
+            width: 20px;
+        }
         .day {
             width: 60px;
         }

@@ -8,8 +8,6 @@ var wObj;
 var settingsData = new FormData(document.querySelector(".settingsPanel form"));
 var darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-
-
 // declaring clock (to transform)
 var clock = document.getElementById("clock");
 
@@ -135,15 +133,15 @@ function Fahrenheit(k) {
 }
 
 function press(hPa) {
-    if (getCookie("pressure") !== "hPa") {
+    if (getCookie("pressure") == "Bar") {
         return Bar(hPa);
     } else {
-        return Math.round(hPa * 10) / 10;
+        return Math.round(hPa);
     }
 }
 
 function Bar(hPa) {
-    return Math.round(hPa / 100) / 10;
+    return Math.round(hPa / 10) / 100;
 }
 
 function windy(ms) {
@@ -194,6 +192,7 @@ async function getCurrentWeather(city, country) {
     req.onload = function() {
         plotCurrentWeather(JSON.parse(this.response));
         console.info("current weather repsonse: " + this.statusText);
+        currentData = JSON.parse(this.response);
     }
     req.onerror = function(e) {
         console.error("Es trat ein Fehler auf. Bitte Eingabe auf Formatierung überprüfen und Netzwerkverbindung sicherstellen.\n\nFehler (getCurrent): " + req.statusText);
@@ -262,6 +261,7 @@ function plotForecast(id) {
     document.querySelector(".box-right .weatherDetails .tempLo div .value").textContent = temp(wObj.main.temp_min);
     document.querySelector(".box-right .weatherDetails .tempHi div .value").textContent = temp(wObj.main.temp_max);
     document.querySelector(".box-right .weatherDetails .pressure div .value").textContent = press(wObj.main.pressure);
+    console.info("Wirklich vorhergesagter Luftdruck: " + wObj.main.pressure + " hPa [Live-Daten liefern keine Dezimalstellen, daher wird der Wert in der Vorhersage gerundet]");
     document.querySelector(".box-right .weatherDetails .wind div p").textContent = windy(wObj.wind.speed);
     document.querySelector(".box-right .weatherDetails .wind div img").style.transform = "rotate(" + (wObj.wind.deg - 90).toString() + "deg)";
     document.querySelector(".box-right .weatherDetails .wind div img").alt = wObj.wind.deg.toString() + "°";
@@ -314,9 +314,7 @@ function moveTimestamp(delta) {
     document.querySelector(".clockContainer p").textContent = toUTCTime(wObj.dt) + "0";
     try {
         document.querySelector(".is-active").classList.remove("is-active");
-    } catch (error) {
-        console.info(error);
-    }
+    } catch (error) {}
     switch (toUTCDate(wObj.dt).getDay()) {
         case d0.getDay():
             document.querySelector(".d1").classList.add("is-active");
@@ -367,6 +365,7 @@ function applySettings() {
     document.cookie = "wind=" + settingsData.get("wind");
     document.cookie = "colorScheme=" + settingsData.get("colorScheme");
     checkColorScheme();
+    refrData();
 }
 
 
@@ -442,6 +441,11 @@ async function getForecastWeatherCoords(lat, long) {
 
 getUserLocation();
 
+function handleTimestampIncrease() {
+    console.log("hello");
+    moveTimestamp(1);
+}
+
 //
 // for css media queries
 //
@@ -449,7 +453,12 @@ getUserLocation();
 // checking wether device has iOS / macOS
 // (backup to touchmove event)
 if (/iPad|iPhone|iPod|Mac/.test(navigator.userAgent) && !window.MSStream) {
-    document.querySelector(".selectionModule").innerHTML += "<div class='mobile-btn-container'><div class='mobile-btn mobile-btn-plus' onclick='return moveTimestamp(1)' > + </div><div class='mobile-btn mobile-btn-minus' onclick='return moveTimestamp(-1)' > - </div></div>";
+    document.querySelector(".selectionModule").innerHTML += "<div class='mobile-btn-container'><div class='mobile-btn mobile-btn-plus' ontouchstart='moveTimestamp(1)'> + </div><div class='mobile-btn mobile-btn-minus'ontouchstart='moveTimestamp(-1)' > - </div></div>";
+} else {
+    document.addEventListener("wheel", () => {
+        const delta = Math.sign(event.deltaY);
+        moveTimestamp(delta);
+    });
 }
 
 
@@ -467,16 +476,6 @@ if (!getCookie("cookieWarning")) {
 //
 // event listeners
 //
-
-// event listeners for scrubbing the wheel
-document.addEventListener("wheel", () => {
-    const delta = Math.sign(event.deltaY);
-    moveTimestamp(delta);
-});
-document.addEventListener("touchmove", function() {
-    const delta = Math.sign(event.deltaY);
-    moveTimestamp(delta);
-});
 
 // for changing location
 document.querySelector(".logoContainer").addEventListener("click", changeLocation);
