@@ -1,2 +1,8 @@
+title: Weather Pro
+description: Das Wetter auf einen Blick.
+author: mithem
+url: https://mithem.github.io/WeatherPro
+lang: de_DE
+
 plugins:
     - jekyll-seo-tag
