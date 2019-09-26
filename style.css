@@ -29,6 +29,10 @@
         height: 90vh;
     }
     
+    .haha {
+        color: #123456;
+    }
+    
     noscript {
         z-index: 3;
         color: red;
