@@ -450,10 +450,10 @@ function handleTimestampIncrease() {
 // for css media queries
 //
 
-// checking wether device has iOS / macOS
+// checking wether device runs iOS / iPadOS / macOS
 // (backup to touchmove event)
 if (/iPad|iPhone|iPod|Mac/.test(navigator.userAgent) && !window.MSStream) {
-    document.querySelector(".selectionModule").innerHTML += "<div class='mobile-btn-container'><div class='mobile-btn mobile-btn-plus' ontouchstart='moveTimestamp(1)'> + </div><div class='mobile-btn mobile-btn-minus'ontouchstart='moveTimestamp(-1)' > - </div></div>";
+    document.querySelector(".selectionModule").innerHTML += "<div class='mobile-btn-container'><button class='mobile-btn mobile-btn-plus' ontouchstart='moveTimestamp(1)' onclick='moveTimestamp(1)'> + </button><button class='mobile-btn mobile-btn-minus'ontouchstart='moveTimestamp(-1)' onclick='moveTimestamp(-1)' > - </button></div>";
 } else {
     document.addEventListener("wheel", () => {
         const delta = Math.sign(event.deltaY);
